@@ -23,7 +23,7 @@ export const ProfilePage:FC = () => {
     const profilePhoto = useAppSelector(state => state.persistedReducer.auth.user.avatarurl)
 
     const [imageError, setImageError] = useState(false);
-
+//
     const uploadPhoto = async (event: React.ChangeEvent<HTMLInputElement>) => {
         try {
             const formData = new FormData();

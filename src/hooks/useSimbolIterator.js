@@ -1,4 +1,4 @@
-const useSymbolIterator = (to:number) => {
+const useSymbolIterator = (to) => {
     let len = []
     let range = {
         from: 0,

@@ -1,11 +1,12 @@
 'use client'
-import { FC }  from 'react';
+import { FC, useState }  from 'react';
 
-export const Favorite:FC = () => {
+export const FavoritesPage:FC = () => {
+
 
     return(
         <div>
-
+            Favorite
         </div>
     )
 }

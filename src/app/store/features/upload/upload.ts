@@ -24,12 +24,19 @@ export const uploadSlice = createSlice({
             })
             .addCase(uploadFile.fulfilled, (state, action) => {
                 state.status = 'success'
-                state.photo = action.payload
+                state.photo = action.payload.url
             })
             .addCase(uploadFile.rejected, state => {
                 state.status = 'error'
             })
     }
+})
+
+export const getPhoto = createAsyncThunk('getPhoto', async (
+    id: number
+) => {
+    const { data } = await axios.get(`upload?user_id=${id}`);
+    return data;
 })
 
 export const uploadFile = createAsyncThunk('uploadFile', async(
@@ -45,11 +52,9 @@ export const uploadFile = createAsyncThunk('uploadFile', async(
 export const deleteFile = createAsyncThunk('uploadFile', async(
     file
 ) => {
-    console.log(file)
     const { data } = await axios.delete(`user/photo?file=${file}`)
     return data;
 })
 
 export const uploadAction = uploadSlice.actions;
-
 export default uploadSlice.reducer

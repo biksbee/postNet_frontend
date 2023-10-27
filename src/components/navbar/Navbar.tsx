@@ -6,6 +6,7 @@ import {Item} from "@/components/navbar/Item";
 import { Auth } from "@/components/navbar/Auth";
 import { useAppSelector } from "@/app/store/hooks/useActions";
 import api from "@/app/axios";
+import {authSlice} from "@/app/store/features/auth/auth";
 
 export const Navbar:FC = () => {
 
@@ -19,6 +20,10 @@ export const Navbar:FC = () => {
             setAuthUser(true)
         else setAuthUser(false)
     }, [token]);
+
+    useEffect(() => {
+        console.log("authUser: " + authUser)
+    }, [authUser]);
 
     useEffect(() => {
         if(typeof window !== "undefined"){
@@ -65,7 +70,7 @@ export const Navbar:FC = () => {
                 <Auth
                     authUser={authUser}
                     text={user.name}
-                    // avatar={auth.avatarurl}
+                    avatar={user.avatarurl}
                 />
             </ul>
         </div>

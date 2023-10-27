@@ -22,8 +22,7 @@ const initialState: IAuth = {
         nick: "",
         email: "",
         token: "",
-        avatarurl: ""
-
+        avatarurl: "/question.svg"
     },
     status: 'init'
 }
@@ -33,7 +32,14 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         logout: (state) => {
-            state.user = {}
+            state.user = {
+                id: 0,
+                name: "",
+                nick: "",
+                email: "",
+                token: "",
+                avatarurl: '/question.svg'
+            }
                 // persistor.purge().then(() => {console.log("!!!!!!2523!!!!!")})
             state.status = 'init'
         },

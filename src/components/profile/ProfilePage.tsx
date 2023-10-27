@@ -5,9 +5,10 @@ import {useRouter} from "next/navigation";
 import Image from "next/image";
 
 import { useAppSelector, useAppDispatch, useActions } from "@/app/store/hooks/useActions";
-import { deleteUserById } from "@/app/store/features/auth/auth";
+import { deleteUserById,  } from "@/app/store/features/auth/auth";
 import { uploadFile } from "@/app/store/features/upload/upload";
 import { PostButton } from "@/components/posts/postButton/postButton";
+import {PostsPage} from "@/components/posts/PostsPage";
 
 export const ProfilePage:FC = () => {
 
@@ -21,8 +22,9 @@ export const ProfilePage:FC = () => {
     const status = useAppSelector(state => state.upload.status)
     const auth = useAppSelector(state => state.persistedReducer.auth.user.id)
     const profilePhoto = useAppSelector(state => state.persistedReducer.auth.user.avatarurl)
+    const photo = useAppSelector(state => state.upload.photo)
 
-    const [imageError, setImageError] = useState(false);
+    const [imageError, setImageError] = useState(true);
 
     const uploadPhoto = async (event: React.ChangeEvent<HTMLInputElement>) => {
         try {
@@ -30,17 +32,25 @@ export const ProfilePage:FC = () => {
             const fileList = event.target.files;
             if (fileList && fileList.length > 0) {
                 const file = fileList[0];
-                formData.append('image', file);
+                formData.append('file', file);
                 await dispatch(uploadFile({id: auth, file: formData}))
             }
         } catch (e){
             console.log(e)
         }
     }
-//
+
+    useEffect(() => {
+        // dispatch()
+    }, [status]);
+
     const handleImageError = () => {
         setImageError(true);
     };
+
+    const editUser = () => {
+
+    }
 
     const logoutUser = () => {
         logout()
@@ -61,11 +71,11 @@ export const ProfilePage:FC = () => {
                         <div className={"bg-[rgba(0,0,0,.8)] w-[200px] h-[200px] text-white text-[64px] rounded-full flex justify-center items-center"}>
                             {imageError ?
                                 <Image
-                                    src={profilePhoto}
-                                    alt={"image"}
+                                    src={user.avatarurl}
+                                    alt={""}
                                     width={200}
                                     height={200}
-                                    onError={handleImageError}
+                                    className={`rounded-full h-full w-full`}
                                 />
                                 :
                                 "?"
@@ -80,15 +90,15 @@ export const ProfilePage:FC = () => {
                     <div className={"flex flex-col gap-y-5"}>
                         <div
                             className={cn(
-                                "flex md:flex-row flex-col gap-x-5",
-                                "text-white text-[32px]"
+                                "flex flex-col gap-x-5",
+                                "text-white text-[26px]"
                             )}
                         >
                             <div>
-                                {user.name}
+                                Name: {user.name}
                             </div>
                             <div>
-                                @{user.nick}
+                                Username: @{user.nick}
                             </div>
                         </div>
                         <div className={"text-white text-[28px]"}>
@@ -97,15 +107,35 @@ export const ProfilePage:FC = () => {
                     </div>
                 </div>
             </div>
-            <div className={"flex gap-x-10"}>
-                <PostButton
-                    text={"Log out"}
-                    handler={logoutUser}
-                />
-                <PostButton
-                    text={"Delete"}
-                    handler={deleteUser}
-                />
+            {/*<div>*/}
+            {/*    <div className={"text-white text-[32px] flex mb-5"}>*/}
+            {/*        Your last posts*/}
+            {/*    </div>*/}
+            {/*    <PostsPage*/}
+            {/*        counter={100}*/}
+            {/*        preType={"show my post"}*/}
+            {/*    />*/}
+            {/*</div>*/}
+            <div>
+                <div className={"text-white text-[32px] flex mb-5"}>
+                    Settings
+                </div>
+                <div>
+                    <PostButton
+                        text={"Edit"}
+                        handler={editUser}
+                    />
+                    <div className={"flex gap-x-5"}>
+                        <PostButton
+                            text={"Log out"}
+                            handler={logoutUser}
+                        />
+                        <PostButton
+                            text={"Delete"}
+                            handler={deleteUser}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     )

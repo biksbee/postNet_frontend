@@ -13,9 +13,10 @@ import api from "@/app/axios";
 
 interface IPostPage {
     counter?: number
+    preType?: "add Post" | "show all" | "show my post" | "show favorite";
 }
 
-export const PostsPage:FC<IPostPage> = ({counter = 5}) => {
+export const PostsPage:FC<IPostPage> = ({counter = 5, preType = "show all"}) => {
 
     const router = useRouter()
 
@@ -27,7 +28,7 @@ export const PostsPage:FC<IPostPage> = ({counter = 5}) => {
     const idAuth = useAppSelector(state => state.persistedReducer.auth.user.id)
     const token = useAppSelector(state => state.persistedReducer.auth.user.token)
     const [page, setPage] = useState<number>(1)
-    const [typePage, setTypePage] = useState<"add Post" | "show all" | "show my post" | "show favorite">("show all")
+    const [typePage, setTypePage] = useState<"add Post" | "show all" | "show my post" | "show favorite">(preType)
 
     const { addPostEmpty, updateStatus } = useActions()
 

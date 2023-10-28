@@ -26,7 +26,7 @@ export const Auth:FC<IAuth> = ({authUser, text = 'A', avatar = '/question.svg'})
             <div
                 onClick={myProfile}
                 className={cn(
-                    "w-[50px] h-[50px] bg-[rgba(0,0,0,.8)] flex justify-center items-center rounded-full text-white text-[32px] cursor-pointer"
+                    "relative w-[50px] h-[50px] bg-[rgba(0,0,0,.8)] flex justify-center items-center rounded-full text-white text-[32px] cursor-pointer"
                 )}
             >
                 {!authUser ?
@@ -59,8 +59,9 @@ const Avatar:FC<avatar> = ({url, setImageError}) => {
         <Image
             src={url}
             alt={'avatar'}
-            width={50}
-            height={50}
+            layout="fill"
+            objectFit="cover"
+            loading="eager"
             className={'w-full h-full rounded-full'}
             onError={handleImageError}
         />

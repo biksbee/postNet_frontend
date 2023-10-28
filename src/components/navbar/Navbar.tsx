@@ -22,10 +22,6 @@ export const Navbar:FC = () => {
     }, [token]);
 
     useEffect(() => {
-        console.log("authUser: " + authUser)
-    }, [authUser]);
-
-    useEffect(() => {
         if(typeof window !== "undefined"){
             api.interceptors.request.use((config) => {
                 config.headers.Authorization = token;

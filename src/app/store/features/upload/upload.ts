@@ -3,11 +3,13 @@ import axios from "@/app/axios";
 
 interface IFile {
     photo: string;
+    recentlyPh: string[];
     status: "init" | "loading" | "error" | "success";
 }
 
 const initialState: IFile = {
-    photo: '',
+    photo: '/question.svg',
+    recentlyPh: ['/question.svg'],
     status: 'init'
 }
 
@@ -24,18 +26,31 @@ export const uploadSlice = createSlice({
             })
             .addCase(uploadFile.fulfilled, (state, action) => {
                 state.status = 'success'
-                state.photo = action.payload.url
+                state.photo = action.payload
             })
             .addCase(uploadFile.rejected, state => {
+                state.status = 'error'
+            })
+            .addCase(getPhoto.pending, state => {
+                state.status = 'loading'
+            })
+            .addCase(getPhoto.fulfilled, (state, action) => {
+                state.status = 'success'
+                state.photo = action.payload.current_photo
+                state.recentlyPh = action.payload.photo_names
+            })
+            .addCase(getPhoto.rejected, state => {
                 state.status = 'error'
             })
     }
 })
 
 export const getPhoto = createAsyncThunk('getPhoto', async (
-    id: number
+    value: {
+        id: number
+    }
 ) => {
-    const { data } = await axios.get(`upload?user_id=${id}`);
+    const { data } = await axios.get(`upload?user_id=${value.id}`);
     return data;
 })
 
